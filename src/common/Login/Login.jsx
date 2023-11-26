@@ -26,31 +26,49 @@ export function Login({ onClose }) {
   };
 
   useEffect(() => {
+    //Impide el scroll
+    document.body.style.overflow = "hidden";
+    //Listener para cerrar modal si se hace click fuera
     document.addEventListener("mousedown", closeModal);
-    return () => document.removeEventListener("mousedown", closeModal);
+    return () => {
+      document.removeEventListener("mousedown", closeModal);
+      document.body.style.overflow = "unset";
+    };
   }, []);
 
   return (
-    <div className="login-overlay" ref={modalRef}>
-      <div className="login-container">
-        <button className="close-button" onClick={onClose}>
-          X
-        </button>
-        <form onSubmit={handleSubmit}>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      ref={modalRef}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <input
+            className="p-2 rounded"
             type="text"
-            placeholder="Usuario"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            className="p-2 rounded"
             type="password"
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Iniciar Sesión</button>
-          <button onClick={onClose}>Cancelar</button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
+          >
+            Cancelar
+          </button>
         </form>
       </div>
     </div>

@@ -13,6 +13,7 @@ export function Header() {
   const { currentUser } = useContext(AuthContext);
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -23,6 +24,9 @@ export function Header() {
     }
   };
 
+  const searchHandler = () => {
+    console.log("Searched");
+  };
   // Control al hacer scroll para cambiar fondo
   useEffect(() => {
     const handleScroll = () => {
@@ -34,43 +38,124 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // return (
+  //   <div className="navigation-bar">
+  //     <div className={`navigation-bar ${isScrolled ? "scrolled" : ""}`}>
+  //       <div className="navigation">
+  //         <ButtonNav name={"Inicio"} destination={"/"} />
+  //         <ButtonNav name={"Series"} destination={"/series"} />
+  //         <ButtonNav name={"UserTest"} destination={"/usertest"} />
+  //       </div>
+  //       <div className="searchInput">
+  //         <input placeholder="Buscar pelicula/serie" />
+  //         <button onClick={searchHandler}>Search</button>
+  //       </div>
+
+  //       <div className="logginAndTheme">
+  //         {currentUser ? (
+  //           <>
+  //             <span>{currentUser.email}</span>
+  //             <div className="buttonLogginDesign" onClick={handleLogout}>
+  //               Logout
+  //             </div>
+  //           </>
+  //         ) : (
+  //           <>
+  //             <div
+  //               className="buttonLogginDesign"
+  //               onClick={() => setShowLogin(true)}
+  //             >
+  //               Login
+  //             </div>
+  //             <div
+  //               className="buttonRegisterDesign"
+  //               onClick={() => setShowRegister(true)}
+  //             >
+  //               Register
+  //             </div>
+  //           </>
+  //         )}
+  //         <ThemeToggle />
+  //       </div>
+  //       {showLogin && <Login onClose={() => setShowLogin(false)} />}
+  //       {showRegister && <Register onClose={() => setShowRegister(false)} />}
+  //     </div>
+  //   </div>
+  // );
   return (
-    <div className="navigation-bar">
-      <div className={`navigation-bar ${isScrolled ? "scrolled" : ""}`}>
-        <div className="navigation">
-          <ButtonNav name={"Inicio"} destination={"/"} />
-          <ButtonNav name={"Series"} destination={"/series"} />
-          <ButtonNav name={"UserTest"} destination={"/usertest"} />
-        </div>
-        <div className="logginAndTheme">
-          {currentUser ? (
-            <>
-              <span>{currentUser.email}</span>
-              <div className="buttonLogginDesign" onClick={handleLogout}>
-                Logout
-              </div>
-            </>
-          ) : (
-            <>
-              <div
-                className="buttonLogginDesign"
-                onClick={() => setShowLogin(true)}
-              >
-                Login
-              </div>
-              <div
-                className="buttonRegisterDesign"
-                onClick={() => setShowRegister(true)}
-              >
-                Register
-              </div>
-            </>
-          )}
-          <ThemeToggle />
-        </div>
-        {showLogin && <Login onClose={() => setShowLogin(false)} />}
-        {showRegister && <Register onClose={() => setShowRegister(false)} />}
+    <div
+      className={`sticky top-0 z-50 flex justify-between items-center p-4 ${
+        isScrolled ? "bg-opacity-50" : "bg-opacity-100"
+      } bg-black`}
+    >
+      <div className="flex gap-4">
+        <ButtonNav name={"Inicio"} destination={"/"} />
+        <ButtonNav name={"Series"} destination={"/series"} />
+        <ButtonNav name={"UserTest"} destination={"/usertest"} />
       </div>
+
+      <div className="flex gap-2">
+        <input className="p-2 rounded" placeholder="Buscar película/serie" />
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          onClick={searchHandler}
+        >
+          Search
+        </button>
+      </div>
+
+      <div className="flex items-center gap-4">
+        {/* Condicionales para Login, Register, Logout */}
+        {currentUser ? (
+          <span className="text-white">{currentUser.email}</span>
+        ) : null}
+        <div className="relative">
+          {/* Icono del usuario que activa el menú desplegable */}
+          <img
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="User Icon"
+            className="w-8 h-8 cursor-pointer"
+            onClick={() => setShowDropdown(!showDropdown)}
+          />
+
+          {/* Menú desplegable */}
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
+              {!currentUser && (
+                <>
+                  <div
+                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setShowLogin(true)}
+                  >
+                    Login
+                  </div>
+                  <div
+                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setShowRegister(true)}
+                  >
+                    Register
+                  </div>
+                </>
+              )}
+              {currentUser && (
+                <div
+                  className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </div>
+              )}
+              <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                <ThemeToggle />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modales para Login y Register */}
+      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showRegister && <Register onClose={() => setShowRegister(false)} />}
     </div>
   );
 }
