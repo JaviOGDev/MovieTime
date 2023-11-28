@@ -1,4 +1,14 @@
-/* .homeDesign {
+.homeDesign {
   width: auto;
-  height: 90vh;
-} */
+  min-height: 90vh;
+}
+
+.homeDesign .filmcard-container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.filmcard-container::-webkit-scrollbar {
+  display: none;
+}
