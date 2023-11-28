@@ -4,10 +4,18 @@ import { Home } from "../Home/Home";
 import { Series } from "../Series/Series";
 import { UserTest } from "../UserTest/UserTest";
 import { Movies } from "../Movies/Movies";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useContext } from "react";
 
 export function Body() {
+  const { theme } = useContext(ThemeContext);
+  const style = {
+    backgroundColor: theme === "light" ? "white" : "#141414",
+    color: theme === "light" ? "black" : "white",
+  };
+
   return (
-    <div className="bodyDesign">
+    <div style={style} className="bodyDesign">
       <Routes>
         <Route path="*" element={<Navigate to={"/"} />} />
         <Route path="/" element={<Home />} />

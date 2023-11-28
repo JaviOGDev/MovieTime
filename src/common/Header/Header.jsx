@@ -84,7 +84,7 @@ export function Header() {
   // );
   return (
     <div
-      className={`sticky top-0 z-50 flex justify-between items-center p-4 ${
+      className={`fixed w-full max-w-full top-0 z-50 flex justify-between items-center p-4 ${
         isScrolled ? "bg-opacity-50" : "bg-opacity-10"
       } bg-black`}
     >
