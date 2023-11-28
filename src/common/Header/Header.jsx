@@ -85,7 +85,7 @@ export function Header() {
   return (
     <div
       className={`sticky top-0 z-50 flex justify-between items-center p-4 ${
-        isScrolled ? "bg-opacity-50" : "bg-opacity-100"
+        isScrolled ? "bg-opacity-50" : "bg-opacity-10"
       } bg-black`}
     >
       <div className="flex gap-4">

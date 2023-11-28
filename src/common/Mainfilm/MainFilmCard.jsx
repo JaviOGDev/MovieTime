@@ -1,6 +1,6 @@
-import "./Mainfilm.css";
+import "./MainFilmCard.css";
 
-export function Mainfilm() {
+export function MainFilmCard() {
   return (
     <div className="mainfilm-container">
       <button className="info-button">Mas info</button>
