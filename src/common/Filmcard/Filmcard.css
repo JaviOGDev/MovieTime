@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
 
 .filmcard-image {
@@ -15,16 +16,21 @@
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 4px;
-  box-sizing: border-box;
-  border: 2px solid transparent; /* Añadir un borde transparente aquí */
-}
-
-.filmcard-image:hover {
-  border-color: purple; /* Cambiar solo el color del borde en hover */
+  transition: filter 0.3s ease-in-out;
 }
 
 .filmcard-title {
   margin-top: 8px;
   text-align: center;
   font-size: 16px;
+}
+
+/* Aumenta ligeramente el tamaño al pasar el ratón por encima */
+.filmcard-container:hover {
+  transform: scale(1.05);
+}
+
+/* Oscurece la imagen al pasar el ratón por encima  */
+.filmcard-container:hover .filmcard-image {
+  filter: brightness(50%);
 }

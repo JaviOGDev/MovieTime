@@ -12,8 +12,6 @@ function App() {
     color: theme === "light" ? "black" : "white",
   };
 
-  console.log(style);
-
   // const themeClass =
   //   theme === "light" ? "bg-green-200 text-black" : "bg-orange-200 text-white";
 
