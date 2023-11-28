@@ -3,8 +3,9 @@
   height: 100%;
 } */
 .bodyDesign {
-  position: absolute;
-  top: 0;
+  /* position: absolute;
+  top: 0; */
   width: 100%;
   box-sizing: border-box;
+  flex-grow: 1;
 }
