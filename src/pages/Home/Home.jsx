@@ -3,12 +3,12 @@ import { MainFilmCard } from "../../common/Mainfilm/MainFilmCard";
 import { Filmcard } from "../../common/Filmcard/Filmcard";
 import { useEffect, useState } from "react";
 import { getPopularMovies, getPopularTVShows } from "../../api/apiCalls";
-import { Footer } from "../../common/Footer/Footer";
 
 export function Home() {
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
 
+  //Peliculas scroll
   const scrollContainerMovies = (direction) => {
     // Aquí implementarías la lógica para desplazar el contenedor
     // Puedes usar scrollLeft y scrollWidth para ajustar la posición
@@ -20,7 +20,7 @@ export function Home() {
       container.scrollLeft += scrollAmount;
     }
   };
-
+  //Series scroll
   const scrollContainerSeries = (direction) => {
     // Aquí implementarías la lógica para desplazar el contenedor
     // Puedes usar scrollLeft y scrollWidth para ajustar la posición
@@ -37,8 +37,8 @@ export function Home() {
     const fetchData = async () => {
       const fetchedMovies = await getPopularMovies();
       const fetchedShow = await getPopularTVShows();
-      setMovies(fetchedMovies);
-      setSeries(fetchedShow);
+      setMovies(fetchedMovies.results);
+      setSeries(fetchedShow.results);
     };
 
     fetchData();
@@ -60,6 +60,7 @@ export function Home() {
                   key={movie.id}
                   title={movie.title}
                   imageUrl={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  destination={`/movie/${movie.id}`}
                 />
               ))}
           </div>
@@ -77,13 +78,13 @@ export function Home() {
                   key={serie.id}
                   title={serie.title}
                   imageUrl={`https://image.tmdb.org/t/p/original${serie.poster_path}`}
+                  destination={`/tv/${serie.id}`}
                 />
               ))}
           </div>
           <button onClick={() => scrollContainerMovies("right")}>{">"}</button>
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

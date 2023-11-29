@@ -10,7 +10,7 @@ const fetchWithApiKey = async (url) => {
       }
       return response.json();
     })
-    .then((data) => data.results)
+    .then((data) => data)
     .catch((error) => {
       console.error("Fetch error:", error);
     });
