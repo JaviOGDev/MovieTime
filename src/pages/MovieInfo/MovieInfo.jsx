@@ -23,7 +23,7 @@ export function MovieInfo() {
 
   return (
     <div className="movieInfoDesign">
-      {data ? <p>{data.title || data.name}</p> : <p>Cargando</p>}
+      {/* {data ? <p>{data.title || data.name}</p> : <p>Cargando</p>} */}
       <MovieDetails />
     </div>
   );

@@ -1,3 +1,5 @@
+import "./Series.css";
+
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import {
@@ -48,7 +50,7 @@ export function Series() {
   };
 
   return (
-    <>
+    <div className="seriesDesign">
       <h1>Contenido</h1>
       <div>
         {contents.length > 0 ? (
@@ -69,6 +71,6 @@ export function Series() {
           <button onClick={handleClearAll}>Clear All</button>
         )}
       </div>
-    </>
+    </div>
   );
 }

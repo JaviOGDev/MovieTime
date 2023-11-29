@@ -27,3 +27,7 @@ export const getPopularTVShows = () => {
 export const getDetails = (type, id) => {
   return fetchWithApiKey(`/${type}/${id}`);
 };
+
+export const getMovieCast = (movieId) => {
+  return fetchWithApiKey(`/movie/${movieId}/credits`);
+};

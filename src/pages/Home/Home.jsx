@@ -24,7 +24,7 @@ export function Home() {
   const scrollContainerSeries = (direction) => {
     // Aquí implementarías la lógica para desplazar el contenedor
     // Puedes usar scrollLeft y scrollWidth para ajustar la posición
-    const container = document.getElementById("filmcards-container");
+    const container = document.getElementById("filmcards-container-series");
     const scrollAmount = 200;
     if (direction === "left") {
       container.scrollLeft -= scrollAmount;
@@ -71,7 +71,7 @@ export function Home() {
         <h1>Series Populares</h1>
         <div className="filmcards-scroll-container">
           <button onClick={() => scrollContainerSeries("left")}>{"<"}</button>
-          <div id="filmcards-containers-series" className="filmcards-container">
+          <div id="filmcards-container-series" className="filmcards-container">
             {series.length > 0 &&
               series.map((serie) => (
                 <Filmcard
@@ -82,7 +82,7 @@ export function Home() {
                 />
               ))}
           </div>
-          <button onClick={() => scrollContainerMovies("right")}>{">"}</button>
+          <button onClick={() => scrollContainerSeries("right")}>{">"}</button>
         </div>
       </div>
     </div>

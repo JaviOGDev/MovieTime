@@ -2,6 +2,8 @@ import "./ButtonNav.css";
 import { useNavigate } from "react-router-dom";
 
 export function ButtonNav({ destination, name }) {
+  //TODO: Hacer if para destination, si le llega esta el onclick y si no esta, no
+
   const navigate = useNavigate();
 
   const handleClick = () => {
