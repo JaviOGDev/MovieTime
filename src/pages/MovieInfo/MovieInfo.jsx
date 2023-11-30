@@ -9,22 +9,39 @@ export function MovieInfo() {
   const [data, setData] = useState();
 
   useEffect(() => {
-    console.log(type);
-    console.log(id);
-
     const fetchData = async () => {
       const response = await getDetails(type, id);
-      console.log(response);
-      setData(response);
+      if (type === "movie") {
+        const responseFiltered = {
+          id: response.id,
+          title: response.title,
+          release_date: response.release_date,
+          overview: response.overview,
+          vote_average: response.vote_average,
+          poster_path: response.poster_path,
+          genres: response.genres,
+        };
+        setData(responseFiltered);
+      }
+      if (type === "tv") {
+        const responseFiltered = {
+          id: response.id,
+          title: response.name,
+          release_date: response.first_air_date,
+          overview: response.overview,
+          vote_average: response.vote_average,
+          poster_path: response.poster_path,
+          genres: response.genres,
+        };
+        setData(responseFiltered);
+      }
     };
-
     fetchData();
   }, [type, id]);
 
   return (
     <div className="movieInfoDesign">
-      {/* {data ? <p>{data.title || data.name}</p> : <p>Cargando</p>} */}
-      <MovieDetails />
+      {data ? <MovieDetails data={data} type={type} /> : <p>Cargando</p>}
     </div>
   );
 }

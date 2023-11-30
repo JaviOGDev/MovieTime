@@ -28,6 +28,11 @@ export const getDetails = (type, id) => {
   return fetchWithApiKey(`/${type}/${id}`);
 };
 
-export const getMovieCast = (movieId) => {
-  return fetchWithApiKey(`/movie/${movieId}/credits`);
+export const getCast = (type, movieId) => {
+  return fetchWithApiKey(`/${type}/${movieId}/credits`);
+};
+
+//Falta testear
+export const getMovies = (query) => {
+  return fetchWithApiKey(`/search/movie&query=${query}`);
 };

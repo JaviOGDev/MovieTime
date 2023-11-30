@@ -46,14 +46,14 @@ export function Register({ onClose }) {
       <div className="bg-white p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <input
-            className="p-2 rounded"
+            className="p-2 rounded text-black"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            className="p-2 rounded"
+            className="p-2 rounded text-black"
             type="password"
             placeholder="Contraseña"
             value={password}

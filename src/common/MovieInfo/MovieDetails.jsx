@@ -1,62 +1,84 @@
+import { useContext, useEffect, useState } from "react";
 import { Filmcard } from "../Filmcard/Filmcard";
 import "./MovieDetails.css";
+import { getCast } from "../../api/apiCalls";
+import { AuthContext } from "../../context/AuthContext";
+import { addContent } from "../../firebase/firebaseOperation";
 
-export function MovieDetails() {
+export function MovieDetails({ data, type }) {
+  const [cast, setCast] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+
+  const handleAddContent = async () => {
+    const content = { title: data.title, type: type };
+
+    if (currentUser) {
+      try {
+        await addContent(currentUser.uid, content);
+        console.log(
+          `Contenido '${content.title}' añadido al array del usuario ${currentUser.uid}`
+        );
+      } catch (error) {
+        console.error(
+          "Error al agregar contenido al array del usuario:",
+          error
+        );
+      }
+    } else {
+      console.log("Usuario no autenticado");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedCast = await getCast(type, data.id);
+      setCast(fetchedCast.cast.slice(0, 10));
+    };
+    fetchData();
+  }, [data]);
+
   return (
     <div className="movieDetailDesign">
       <div className="movieMainDesign">
         <div className="movieImgDesign">
           <img
-            src="https://image.tmdb.org/t/p/original/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg"
-            alt="El poster the el Joker"
+            src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
+            alt={`Poster of ${data.title}`}
           />
+          {currentUser && (
+            <button className="addListButton" onClick={handleAddContent}>
+              Add to your list
+            </button>
+          )}
         </div>
-
         <div className="movieDetailInfoDesign">
-          <h1>Joker</h1>
-          <h1>Crimen, Drama, Thriller</h1>
-          <h1>Fecha: 2019-10-01</h1>
-          <h1>Puntuacion: 8.165</h1>
-          <h1>
-            "During the 1980s, a failed stand-up comedian is driven insane and
-            turns to a life of crime and chaos in Gotham City while becoming an
-            infamous psychopathic crime figure.
-          </h1>
+          <h1>{data.title}</h1>
+          <div className="genresContainer">
+            {data.genres.map((genre) => (
+              <p key={genre.id}>{`${genre.name},`}</p>
+            ))}
+          </div>
+          <h1>{`Released: ${data.release_date}`}</h1>
+          <h1>{`Score: ${data.vote_average}`}</h1>
+          <h1> {data.overview}</h1>
         </div>
       </div>
       <div className="gridContainerDesign">
         <h1>Cast</h1>
         <div className="gridCastDesign">
-          <Filmcard
-            title={"Joaquin Phoenix"}
-            imageUrl={
-              "https://image.tmdb.org/t/p/original/oe0ydnDvQJCTbAb2r5E1asVXoCP.jpg"
-            }
-          />
-          <Filmcard
-            title={"Joaquin Phoenix"}
-            imageUrl={
-              "https://image.tmdb.org/t/p/original/oe0ydnDvQJCTbAb2r5E1asVXoCP.jpg"
-            }
-          />
-          <Filmcard
-            title={"Joaquin Phoenix"}
-            imageUrl={
-              "https://image.tmdb.org/t/p/original/oe0ydnDvQJCTbAb2r5E1asVXoCP.jpg"
-            }
-          />
-          <Filmcard
-            title={"Joaquin Phoenix"}
-            imageUrl={
-              "https://image.tmdb.org/t/p/original/oe0ydnDvQJCTbAb2r5E1asVXoCP.jpg"
-            }
-          />
-          <Filmcard
-            title={"Joaquin Phoenix"}
-            imageUrl={
-              "https://image.tmdb.org/t/p/original/oe0ydnDvQJCTbAb2r5E1asVXoCP.jpg"
-            }
-          />
+          {cast.length > 0 ? (
+            cast.map((cast) => {
+              return (
+                <Filmcard
+                  key={cast.id}
+                  title={cast.name}
+                  imageUrl={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                />
+              );
+            })
+          ) : (
+            <p>No se ha encontrado cast</p>
+          )}
         </div>
       </div>
     </div>

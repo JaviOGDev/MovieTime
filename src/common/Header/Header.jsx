@@ -8,10 +8,12 @@ import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 
 export function Header() {
+  //Login
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
+  //Scroll
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -38,50 +40,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // return (
-  //   <div className="navigation-bar">
-  //     <div className={`navigation-bar ${isScrolled ? "scrolled" : ""}`}>
-  //       <div className="navigation">
-  //         <ButtonNav name={"Inicio"} destination={"/"} />
-  //         <ButtonNav name={"Series"} destination={"/series"} />
-  //         <ButtonNav name={"UserTest"} destination={"/usertest"} />
-  //       </div>
-  //       <div className="searchInput">
-  //         <input placeholder="Buscar pelicula/serie" />
-  //         <button onClick={searchHandler}>Search</button>
-  //       </div>
-
-  //       <div className="logginAndTheme">
-  //         {currentUser ? (
-  //           <>
-  //             <span>{currentUser.email}</span>
-  //             <div className="buttonLogginDesign" onClick={handleLogout}>
-  //               Logout
-  //             </div>
-  //           </>
-  //         ) : (
-  //           <>
-  //             <div
-  //               className="buttonLogginDesign"
-  //               onClick={() => setShowLogin(true)}
-  //             >
-  //               Login
-  //             </div>
-  //             <div
-  //               className="buttonRegisterDesign"
-  //               onClick={() => setShowRegister(true)}
-  //             >
-  //               Register
-  //             </div>
-  //           </>
-  //         )}
-  //         <ThemeToggle />
-  //       </div>
-  //       {showLogin && <Login onClose={() => setShowLogin(false)} />}
-  //       {showRegister && <Register onClose={() => setShowRegister(false)} />}
-  //     </div>
-  //   </div>
-  // );
   return (
     <div
       className={`fixed w-full max-w-full top-0 z-50 flex justify-between items-center p-4 ${
@@ -96,7 +54,10 @@ export function Header() {
       </div>
 
       <div className="flex gap-2">
-        <input className="p-2 rounded" placeholder="Buscar película/serie" />
+        <input
+          className="p-2 rounded text-black"
+          placeholder="Buscar película/serie"
+        />
         <button
           className="bg-blue-500 text-white p-2 rounded"
           onClick={searchHandler}

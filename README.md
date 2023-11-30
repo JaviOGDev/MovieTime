@@ -11,9 +11,10 @@ Website to check info about Films & TvShows, also you can add those you have pen
 
 ## TODO
 
-- [] MovieInfo
-- [] Search input
-- [] Control errors Login & Register
-- [] Page for pedding movies
-- [] Footer format
-- [] Upcoming movies?
+- [DONE] MovieInfo
+- [ ] Search input
+- [ ] MovieDetails style movieDetailInfoDesign
+- [ ] Control errors Login & Register
+- [ ] Page for pedding movies
+- [ ] Footer format
+- [ ] Upcoming movies?
