@@ -7,6 +7,7 @@ import { Movies } from "../Movies/Movies";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
 import { MovieInfo } from "../MovieInfo/MovieInfo";
+import { YourList } from "../YourList/YourList";
 
 export function Body() {
   const { theme } = useContext(ThemeContext);
@@ -23,6 +24,7 @@ export function Body() {
         <Route path="/movies" element={<Movies />} />
         <Route path="/series" element={<Series />} />
         <Route path="/usertest" element={<UserTest />} />
+        <Route path="/yourlist" element={<YourList />} />
         <Route path="/:type/:id" element={<MovieInfo />} />
       </Routes>
     </div>

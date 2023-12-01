@@ -7,11 +7,10 @@ import { getPopularMovies, getPopularTVShows } from "../../api/apiCalls";
 export function Home() {
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
+  const [homeFilm, setHomeFilm] = useState();
 
   //Peliculas scroll
   const scrollContainerMovies = (direction) => {
-    // Aquí implementarías la lógica para desplazar el contenedor
-    // Puedes usar scrollLeft y scrollWidth para ajustar la posición
     const container = document.getElementById("filmcards-container-films");
     const scrollAmount = 200;
     if (direction === "left") {
@@ -22,8 +21,6 @@ export function Home() {
   };
   //Series scroll
   const scrollContainerSeries = (direction) => {
-    // Aquí implementarías la lógica para desplazar el contenedor
-    // Puedes usar scrollLeft y scrollWidth para ajustar la posición
     const container = document.getElementById("filmcards-container-series");
     const scrollAmount = 200;
     if (direction === "left") {
@@ -39,6 +36,8 @@ export function Home() {
       const fetchedShow = await getPopularTVShows();
       setMovies(fetchedMovies.results);
       setSeries(fetchedShow.results);
+      console.log(fetchedMovies.results[0]);
+      setHomeFilm(fetchedMovies.results[0]);
     };
 
     fetchData();
@@ -47,7 +46,14 @@ export function Home() {
   return (
     <div className="homeDesign">
       <div>
-        <MainFilmCard />
+        <MainFilmCard
+          id={homeFilm ? homeFilm.id : "0"}
+          wallpaper={
+            homeFilm
+              ? `https://image.tmdb.org/t/p/original${homeFilm.backdrop_path}`
+              : "https://image.tmdb.org/t/p/original/r0kZNywAeN6Ar75rxDqLlTP5RiJ.jpg"
+          }
+        />
       </div>
       <div>
         <h1>Pelis Populares</h1>

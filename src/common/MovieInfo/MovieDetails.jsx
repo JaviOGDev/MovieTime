@@ -10,8 +10,15 @@ export function MovieDetails({ data, type }) {
   const { currentUser } = useContext(AuthContext);
 
   const handleAddContent = async () => {
-    const content = { title: data.title, type: type };
-
+    const content = {
+      id: data.id,
+      title: data.title,
+      type: type,
+      imageUrl: data.poster_path,
+      viewed: false,
+      favourited: false,
+    };
+    console.log("Pelicula añadida: ", content);
     if (currentUser) {
       try {
         await addContent(currentUser.uid, content);

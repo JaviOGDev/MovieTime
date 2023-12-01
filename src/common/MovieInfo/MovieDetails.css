@@ -36,16 +36,6 @@
   border-radius: 4px;
 }
 
-.gridContainerDesign {
-  width: 100%;
-}
-
-.gridCastDesign {
-  margin: 1em;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(100px, auto));
-}
-
 .genresContainer {
   display: flex;
   flex-direction: row;
@@ -56,4 +46,14 @@
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+.gridContainerDesign {
+  width: 100%;
+}
+
+.gridCastDesign {
+  margin: 1em;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, auto));
 }

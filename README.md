@@ -11,10 +11,9 @@ Website to check info about Films & TvShows, also you can add those you have pen
 
 ## TODO
 
-- [DONE] MovieInfo
 - [ ] Search input
 - [ ] MovieDetails style movieDetailInfoDesign
 - [ ] Control errors Login & Register
-- [ ] Page for pedding movies
+- [ ] YourList add buttons Viewed, Unviewed, Favourited, Unfav, Delete
 - [ ] Footer format
 - [ ] Upcoming movies?

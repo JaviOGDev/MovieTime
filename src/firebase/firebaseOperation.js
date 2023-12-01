@@ -76,3 +76,65 @@ export const clearAllContent = async (userId) => {
     movies: [],
   });
 };
+
+// Función para actualizar el estado de "viewed" de una película
+export const toggleMovieViewedStatus = async (userId, movieId) => {
+  const userDocRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userDocRef);
+
+  if (userDoc.exists()) {
+    // Obtener las películas actuales
+    const movies = userDoc.data().movies || [];
+    // Encontrar el índice de la película a actualizar
+    const movieIndex = movies.findIndex((movie) => movie.id === movieId);
+
+    if (movieIndex !== -1) {
+      // Cambiar el estado de "viewed"
+      const updatedMovies = [...movies];
+      updatedMovies[movieIndex] = {
+        ...updatedMovies[movieIndex],
+        viewed: !updatedMovies[movieIndex].viewed,
+      };
+
+      // Actualizar el documento
+      return await updateDoc(userDocRef, {
+        movies: updatedMovies,
+      });
+    } else {
+      throw new Error("Movie not found");
+    }
+  } else {
+    throw new Error("User document does not exist");
+  }
+};
+
+// Función para actualizar el estado de "favourited" de una película
+export const toggleMovieFavouritedStatus = async (userId, movieId) => {
+  const userDocRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userDocRef);
+
+  if (userDoc.exists()) {
+    // Obtener las películas actuales
+    const movies = userDoc.data().movies || [];
+    // Encontrar el índice de la película a actualizar
+    const movieIndex = movies.findIndex((movie) => movie.id === movieId);
+
+    if (movieIndex !== -1) {
+      // Cambiar el estado de "favourited"
+      const updatedMovies = [...movies];
+      updatedMovies[movieIndex] = {
+        ...updatedMovies[movieIndex],
+        favourited: !updatedMovies[movieIndex].favourited,
+      };
+
+      // Actualizar el documento
+      return await updateDoc(userDocRef, {
+        movies: updatedMovies,
+      });
+    } else {
+      throw new Error("Movie not found");
+    }
+  } else {
+    throw new Error("User document does not exist");
+  }
+};

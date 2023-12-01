@@ -51,6 +51,7 @@ export function Header() {
         <ButtonNav name={"Movies"} destination={"/movies"} />
         <ButtonNav name={"Series"} destination={"/series"} />
         <ButtonNav name={"UserTest"} destination={"/usertest"} />
+        <ButtonNav name={"Your List"} destination={"/yourlist"} />
       </div>
 
       <div className="flex gap-2">
