@@ -1,5 +1,5 @@
 import "./YourList.css";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Filmcard } from "../../common/Filmcard/Filmcard";
 import { AuthContext } from "../../context/AuthContext";
 import {
@@ -10,56 +10,70 @@ import {
 
 export function YourList() {
   const [list, setList] = useState([]);
-  const [pendingMovies, setPendingMovies] = useState([]);
-  const [viewedMovies, setViewedMovies] = useState([]);
-  const [favouritedMovies, setFavouritedMovies] = useState([]);
   const { currentUser } = useContext(AuthContext);
 
-  const [refresh, setRefresh] = useState("false");
-
-  // Función para manejar el cambio de estado de "viewed"
-  const handleToggleViewed = async (movieId) => {
-    try {
-      await toggleMovieViewedStatus(currentUser.uid, movieId);
-      setRefresh(true);
-    } catch (error) {
-      console.error("Error al cambiar el estado de 'viewed'", error);
+  const fetchUserContents = useCallback(async () => {
+    if (currentUser) {
+      try {
+        const userContents = await getUserContent(currentUser.uid);
+        setList(userContents);
+      } catch (error) {
+        console.error("Error al obtener películas del usuario.", error);
+      }
     }
-  };
-
-  // Función para manejar el cambio de estado de "favourited"
-  const handleToggleFavourited = async (movieId) => {
-    try {
-      await toggleMovieFavouritedStatus(currentUser.uid, movieId);
-      setRefresh(true);
-    } catch (error) {
-      console.error("Error al cambiar el estado de 'favourited'", error);
-    }
-  };
+  }, [currentUser]);
 
   useEffect(() => {
-    setRefresh(false);
-    const fetchUserContents = async () => {
-      if (currentUser) {
-        try {
-          const userContents = await getUserContent(currentUser.uid);
-          console.log("Todas las peliculas: ", userContents);
-          setList(userContents);
-
-          setPendingMovies(userContents.filter((movie) => !movie.viewed));
-          setViewedMovies(userContents.filter((movie) => movie.viewed));
-          setFavouritedMovies(userContents.filter((movie) => movie.favourited));
-        } catch (error) {
-          console.log("Error al obtener peliculas del usuario.", error);
-        }
-      }
-      console.log("Pending movies: ", pendingMovies);
-      console.log("Viewed movies: ", viewedMovies);
-      console.log("Favourited movies: ", favouritedMovies);
-    };
-
     fetchUserContents();
-  }, [currentUser, refresh]);
+  }, [fetchUserContents]);
+
+  // Función para manejar el cambio de estado de "viewed"
+  const handleToggleViewed = useCallback(
+    async (movieId) => {
+      if (!currentUser) {
+        console.error("No hay usuario autenticado.");
+        return;
+      }
+      try {
+        const newState = !list.find((movie) => movie.id === movieId).viewed;
+        await toggleMovieViewedStatus(currentUser.uid, movieId);
+        setList((currentList) =>
+          currentList.map((movie) =>
+            movie.id === movieId ? { ...movie, viewed: newState } : movie
+          )
+        );
+      } catch (error) {
+        console.error("Error al cambiar el estado de 'viewed'", error);
+      }
+    },
+    [currentUser, list]
+  );
+  // Función para manejar el cambio de estado de "favourited"
+  const handleToggleFavourited = useCallback(
+    async (movieId) => {
+      if (!currentUser) {
+        console.error("No hay usuario autenticado.");
+        return;
+      }
+      try {
+        const newState = !list.find((movie) => movie.id === movieId).favourited;
+        await toggleMovieFavouritedStatus(currentUser.uid, movieId);
+        setList((currentList) =>
+          currentList.map((movie) =>
+            movie.id === movieId ? { ...movie, favourited: newState } : movie
+          )
+        );
+      } catch (error) {
+        console.error("Error al cambiar el estado de 'favourited'", error);
+      }
+    },
+    [currentUser, list]
+  );
+
+  // Filtrado de peliculas pending, viewed and favourited
+  const pendingMovies = list.filter((movie) => !movie.viewed);
+  const viewedMovies = list.filter((movie) => movie.viewed);
+  const favouritedMovies = list.filter((movie) => movie.favourited);
 
   return (
     <div className="yourListDesign">
@@ -79,7 +93,7 @@ export function YourList() {
                       Viewed
                     </button>
                     <button onClick={() => handleToggleFavourited(movie.id)}>
-                      Add fav
+                      {movie.favourited ? "Unfav" : "Add fav"}
                     </button>
                     <button>Delete</button>
                   </div>
@@ -107,7 +121,7 @@ export function YourList() {
                       Pending
                     </button>
                     <button onClick={() => handleToggleFavourited(movie.id)}>
-                      Add fav
+                      {movie.favourited ? "Unfav" : "Add fav"}
                     </button>
                     <button>Delete</button>
                   </div>

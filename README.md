@@ -14,6 +14,5 @@ Website to check info about Films & TvShows, also you can add those you have pen
 - [ ] Search input
 - [ ] MovieDetails style movieDetailInfoDesign
 - [ ] Control errors Login & Register
-- [ ] YourList add buttons Viewed, Unviewed, Favourited, Unfav, Delete
 - [ ] Footer format
 - [ ] Upcoming movies?
