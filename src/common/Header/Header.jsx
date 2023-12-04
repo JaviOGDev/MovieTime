@@ -6,6 +6,9 @@ import { ButtonNav } from "../ButtoNav/ButtonNav";
 import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
+import { searchMoviesAndTVShows } from "../../api/apiCalls";
+import { SearchResultContext } from "../../context/SearchResultContext";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   //Login
@@ -17,6 +20,26 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  //Input & Search
+  const [inputSearch, setInputSearch] = useState("");
+  const { insertSearchResult } = useContext(SearchResultContext);
+  const navigate = useNavigate("");
+
+  const changeHandler = (event) => {
+    const newResult = event.target.value;
+    if (newResult.startsWith(" ")) {
+      return;
+    }
+    setInputSearch(newResult);
+  };
+
+  const getData = async () => {
+    console.log("Getting data");
+    const response = await searchMoviesAndTVShows(inputSearch);
+    insertSearchResult(response);
+    navigate("/movies");
+  };
+
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -26,9 +49,6 @@ export function Header() {
     }
   };
 
-  const searchHandler = () => {
-    console.log("Searched");
-  };
   // Control al hacer scroll para cambiar fondo
   useEffect(() => {
     const handleScroll = () => {
@@ -50,18 +70,21 @@ export function Header() {
         <ButtonNav name={"Inicio"} destination={"/"} />
         <ButtonNav name={"Movies"} destination={"/movies"} />
         <ButtonNav name={"Series"} destination={"/series"} />
-        <ButtonNav name={"UserTest"} destination={"/usertest"} />
-        <ButtonNav name={"Your List"} destination={"/yourlist"} />
+        {currentUser && (
+          <ButtonNav name={"Your List"} destination={"/yourlist"} />
+        )}
       </div>
 
       <div className="flex gap-2">
         <input
           className="p-2 rounded text-black"
           placeholder="Buscar película/serie"
+          onChange={changeHandler}
+          value={inputSearch}
         />
         <button
           className="bg-blue-500 text-white p-2 rounded"
-          onClick={searchHandler}
+          onClick={getData}
         >
           Search
         </button>

@@ -11,7 +11,6 @@ Website to check info about Films & TvShows, also you can add those you have pen
 
 ## TODO
 
-- [ ] Search input
 - [ ] MovieDetails style movieDetailInfoDesign
 - [ ] Control errors Login & Register
 - [ ] Footer format

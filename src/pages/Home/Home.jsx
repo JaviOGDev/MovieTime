@@ -36,7 +36,6 @@ export function Home() {
       const fetchedShow = await getPopularTVShows();
       setMovies(fetchedMovies.results);
       setSeries(fetchedShow.results);
-      console.log(fetchedMovies.results[0]);
       setHomeFilm(fetchedMovies.results[0]);
     };
 
@@ -51,7 +50,7 @@ export function Home() {
           wallpaper={
             homeFilm
               ? `https://image.tmdb.org/t/p/original${homeFilm.backdrop_path}`
-              : "https://image.tmdb.org/t/p/original/r0kZNywAeN6Ar75rxDqLlTP5RiJ.jpg"
+              : "https://image.tmdb.org/t/p/original/9PqD3wSIjntyJDBzMNuxuKHwpUD.jpg"
           }
         />
       </div>

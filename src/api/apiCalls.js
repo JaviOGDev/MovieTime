@@ -2,7 +2,9 @@ const API_KEY = "16f7bcc4c99ac0b29a5f5c68815f9fdb";
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithApiKey = async (url) => {
-  const fullUrl = `${BASE_URL}${url}?api_key=${API_KEY}`;
+  const separator = url.includes("?") ? "&" : "?";
+
+  const fullUrl = `${BASE_URL}${url}${separator}api_key=${API_KEY}`;
   return fetch(fullUrl)
     .then((response) => {
       if (!response.ok) {
@@ -35,4 +37,32 @@ export const getCast = (type, movieId) => {
 //Falta testear
 export const getMovies = (query) => {
   return fetchWithApiKey(`/search/movie&query=${query}`);
+};
+
+export const searchMoviesAndTVShows = async (query) => {
+  const moviesPromise = fetchWithApiKey(
+    `/search/movie?query=${encodeURIComponent(query)}`
+  );
+
+  const seriesPromise = fetchWithApiKey(
+    `/search/tv?query=${encodeURIComponent(query)}`
+  );
+
+  return Promise.all([moviesPromise, seriesPromise])
+
+    .then(([moviesPromise, seriesPromise]) => {
+      const newMoviesPromise = moviesPromise.results.map((movie) => ({
+        ...movie,
+        type: "movie",
+      }));
+      const newSeriesPromise = seriesPromise.results.map((serie) => ({
+        ...serie,
+        type: "serie",
+      }));
+
+      return [...newMoviesPromise, ...newSeriesPromise];
+    })
+    .catch((error) => {
+      console.error("Search error:", error);
+    });
 };

@@ -1,0 +1,102 @@
+.resultsDesign {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos hijos horizontalmente */
+}
+
+.filterContainerDesign {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-left: 20px;
+}
+
+select {
+  color: black;
+}
+
+.gridResultsDesign {
+  margin: 1em;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, auto));
+  margin-top: 20px;
+}
+
+.filmResultCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filmResultCard img {
+  width: 100%;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+.listResultsDesign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.listResultCard {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 60%;
+  max-width: 60%;
+  box-sizing: border-box;
+  cursor: pointer;
+  min-height: 120px;
+}
+
+.listResultCard:hover {
+  filter: brightness(50%);
+}
+
+.listIndex {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.listPoster {
+  width: 50px;
+  height: auto;
+}
+
+.listDetails {
+  flex-grow: 1;
+  margin: 5px;
+}
+
+.listDetails h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.listSubdetails {
+  font-size: 0.8rem;
+}
+
+.listRating {
+  font-weight: bold;
+  margin-left: auto; /* Pushes the rating to the far right */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.listRating h3 {
+  font-size: 1.5rem;
+}
+.listRating p {
+  font-size: 1rem;
+}
