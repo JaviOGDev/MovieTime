@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { Filmcard } from "../../common/Filmcard/Filmcard";
 import { AuthContext } from "../../context/AuthContext";
 import {
+  deleteContent,
   getUserContent,
   toggleMovieFavouritedStatus,
   toggleMovieViewedStatus,
@@ -70,6 +71,24 @@ export function YourList() {
     [currentUser, list]
   );
 
+  const handleDeleteMovie = useCallback(
+    async (movie) => {
+      if (!currentUser) {
+        console.error("No hay usuario autenticado.");
+        return;
+      }
+      try {
+        await deleteContent(currentUser.uid, movie);
+        setList((currentList) =>
+          currentList.filter((item) => item.id !== movie.id)
+        );
+      } catch (error) {
+        console.error("Error al eliminar la película", error);
+      }
+    },
+    [currentUser]
+  );
+
   // Filtrado de peliculas pending, viewed and favourited
   const pendingMovies = list.filter((movie) => !movie.viewed);
   const viewedMovies = list.filter((movie) => movie.viewed);
@@ -95,7 +114,9 @@ export function YourList() {
                     <button onClick={() => handleToggleFavourited(movie.id)}>
                       {movie.favourited ? "Unfav" : "Add fav"}
                     </button>
-                    <button>Delete</button>
+                    <button onClick={() => handleDeleteMovie(movie)}>
+                      Delete
+                    </button>
                   </div>
                 </div>
               );

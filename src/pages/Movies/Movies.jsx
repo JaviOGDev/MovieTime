@@ -71,7 +71,7 @@ export function Movies() {
           {changeView ? "list" : "grid_on"}
         </button>
       </div>
-      <div>
+      <div className="container">
         {changeView ? (
           <div className="resultsContainerDesign">
             {sortedResults?.length > 0 ? (

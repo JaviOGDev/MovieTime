@@ -26,9 +26,10 @@
 .movieImgDesign {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .movieImgDesign img {
@@ -37,16 +38,17 @@
   border-radius: 4px;
 }
 
+.addListButton {
+  font-size: 36px;
+  margin-left: 10px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
 .genresContainer {
   display: flex;
   flex-direction: row;
   gap: 5px;
-}
-
-.addListButton {
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 
 .gridContainerDesign {

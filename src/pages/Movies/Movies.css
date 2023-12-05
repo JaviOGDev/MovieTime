@@ -12,8 +12,8 @@
   margin-left: 20px;
 }
 
-select {
-  color: black;
+.container {
+  width: 100%;
 }
 
 .resultsContainerDesign {
@@ -23,7 +23,8 @@ select {
 .gridResultsDesign {
   margin: 1em;
   display: grid;
-  grid-template-columns: repeat(5, minmax(100px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+  gap: 1em;
 }
 
 .filmResultCard {
@@ -54,10 +55,9 @@ select {
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  width: 60%;
-  max-width: 60%;
   box-sizing: border-box;
   cursor: pointer;
+  width: 60%;
   min-height: 120px;
 }
 
@@ -102,4 +102,8 @@ select {
 }
 .listRating p {
   font-size: 1rem;
+}
+
+select {
+  color: black;
 }

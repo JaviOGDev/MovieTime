@@ -53,9 +53,12 @@ export function MovieDetails({ data, type }) {
             alt={`Poster of ${data.title}`}
           />
           {currentUser && (
-            <button className="addListButton" onClick={handleAddContent}>
-              Add to your list
-            </button>
+            <span
+              className="addListButton material-icons"
+              onClick={handleAddContent}
+            >
+              {"add_circle_outline"}
+            </span>
           )}
         </div>
         <div className="movieDetailInfoDesign">
