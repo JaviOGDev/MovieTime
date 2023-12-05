@@ -64,69 +64,76 @@ export function Movies() {
           <option value="ratingHighToLow">Mejor Calificados</option>
           <option value="ratingLowToHigh">Peor Calificados</option>
         </select>
-        <button onClick={() => setChangeView((prevState) => !prevState)}>
-          {changeView ? "Modo lista" : "Modo grid"}
+        <button
+          onClick={() => setChangeView((prevState) => !prevState)}
+          className="material-icons"
+        >
+          {changeView ? "list" : "grid_on"}
         </button>
       </div>
       <div>
         {changeView ? (
-          <div className="gridResultsDesign">
+          <div className="resultsContainerDesign">
             {sortedResults?.length > 0 ? (
-              sortedResults.map((movie) => (
-                <div key={movie.id} className="filmResultCard">
-                  <Filmcard
-                    // title={movie.type === "movie" ? movie.title : movie.name}
-                    title={movie.vote_average.toFixed(1)}
-                    imageUrl={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                    destination={
-                      movie.type === "movie"
-                        ? `/movie/${movie.id}`
-                        : `/tv/${movie.id}`
-                    }
-                  />
-                </div>
-              ))
+              <div className="gridResultsDesign">
+                {sortedResults.map((movie) => (
+                  <div key={movie.id} className="filmResultCard">
+                    <Filmcard
+                      // title={movie.type === "movie" ? movie.title : movie.name}
+                      title={movie.vote_average.toFixed(1)}
+                      imageUrl={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                      destination={
+                        movie.type === "movie"
+                          ? `/movie/${movie.id}`
+                          : `/tv/${movie.id}`
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
             ) : (
               <p>Realiza una búsqueda</p>
             )}
           </div>
         ) : (
-          <div className="listResultsDesign">
+          <div className="resultsContainerDesign">
             {sortedResults?.length > 0 ? (
-              sortedResults.map((movie, index) => (
-                <div
-                  key={movie.id}
-                  className="listResultCard"
-                  onClick={() =>
-                    navigate(
-                      movie.type === "movie"
-                        ? `/movie/${movie.id}`
-                        : `/tv/${movie.id}`
-                    )
-                  }
-                >
-                  <span className="listIndex">{index + 1}.</span>
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                    alt={movie.title || movie.name}
-                    className="listPoster"
-                  />
-                  <div className="listDetails">
-                    <h3>
-                      {movie.title || movie.name} (
-                      {new Date(
-                        movie.release_date || movie.first_air_date
-                      ).getFullYear()}
+              <div className="listResultsDesign">
+                {sortedResults.map((movie, index) => (
+                  <div
+                    key={movie.id}
+                    className="listResultCard"
+                    onClick={() =>
+                      navigate(
+                        movie.type === "movie"
+                          ? `/movie/${movie.id}`
+                          : `/tv/${movie.id}`
                       )
-                    </h3>
-                    <p className="listSubdetails">{movie.overview}</p>
+                    }
+                  >
+                    <span className="listIndex">{index + 1}.</span>
+                    <img
+                      src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                      alt={movie.title || movie.name}
+                      className="listPoster"
+                    />
+                    <div className="listDetails">
+                      <h3>
+                        {movie.title || movie.name} (
+                        {new Date(
+                          movie.release_date || movie.first_air_date
+                        ).getFullYear()}
+                        )
+                      </h3>
+                      <p className="listSubdetails">{movie.overview}</p>
+                    </div>
+                    <div className="listRating">
+                      <h3>{movie.vote_average.toFixed(1)}</h3>
+                      <p>{movie.vote_count}</p>
+                    </div>
                   </div>
-                  <div className="listRating">
-                    <h3>{movie.vote_average.toFixed(1)}</h3>
-                    <p>{movie.vote_count}</p>
-                  </div>
-                </div>
-              ))
+                ))}
+              </div>
             ) : (
               <p>Realiza una búsqueda</p>
             )}

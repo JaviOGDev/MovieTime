@@ -97,12 +97,12 @@ export function Header() {
         ) : null}
         <div className="relative">
           {/* Icono del usuario que activa el menú desplegable */}
-          <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="User Icon"
-            className="w-8 h-8 cursor-pointer"
+          <span
+            className="material-icons w-8 h-8 cursor-pointer"
             onClick={() => setShowDropdown(!showDropdown)}
-          />
+          >
+            {"person_outline"}
+          </span>
 
           {/* Menú desplegable */}
           {showDropdown && (
@@ -110,13 +110,13 @@ export function Header() {
               {!currentUser && (
                 <>
                   <div
-                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     onClick={() => setShowLogin(true)}
                   >
                     Login
                   </div>
                   <div
-                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     onClick={() => setShowRegister(true)}
                   >
                     Register
@@ -125,13 +125,13 @@ export function Header() {
               )}
               {currentUser && (
                 <div
-                  className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                   onClick={handleLogout}
                 >
                   Logout
                 </div>
               )}
-              <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+              <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
                 <ThemeToggle />
               </div>
             </div>

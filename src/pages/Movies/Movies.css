@@ -16,11 +16,14 @@ select {
   color: black;
 }
 
+.resultsContainerDesign {
+  margin-top: 20px;
+}
+
 .gridResultsDesign {
   margin: 1em;
   display: grid;
   grid-template-columns: repeat(5, minmax(100px, auto));
-  margin-top: 20px;
 }
 
 .filmResultCard {
