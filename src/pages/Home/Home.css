@@ -17,17 +17,17 @@
   overflow-x: auto;
   scroll-behavior: smooth;
 }
-
+/* Ocultar la barra de desplazamiento */
 .filmcards-container::-webkit-scrollbar {
-  display: none; /* Ocultar la barra de desplazamiento */
+  display: none;
 }
 
-/* Estilos para los botones de desplazamiento */
+/* Botones de desplazamiento */
 .filmcards-scroll-container > button {
   background: none;
   border: none;
-  color: white; /* Cambia el color según tu diseño */
+  color: white;
   padding: 10px;
   cursor: pointer;
-  font-size: 24px; /* Cambia el tamaño según tu diseño */
+  font-size: 24px;
 }

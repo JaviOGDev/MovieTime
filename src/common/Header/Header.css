@@ -1,7 +1,6 @@
 .navigation-bar {
   height: 10vh;
   width: 100%;
-  /* background-color: lightgray; */
   display: flex;
   flex-direction: row;
   align-items: center;

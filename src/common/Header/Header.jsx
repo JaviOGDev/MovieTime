@@ -40,6 +40,12 @@ export function Header() {
     navigate("/movies");
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      getData();
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -66,7 +72,7 @@ export function Header() {
         isScrolled ? "bg-opacity-50" : "bg-opacity-10"
       } bg-black`}
     >
-      <div className="flex gap-4">
+      <div className="flex gap-4 basis-1/3">
         <ButtonNav name={"Inicio"} destination={"/"} />
         <ButtonNav name={"Movies"} destination={"/movies"} />
         <ButtonNav name={"Series"} destination={"/series"} />
@@ -75,11 +81,12 @@ export function Header() {
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 basis-1/3 justify-center">
         <input
           className="p-2 rounded text-black"
           placeholder="Buscar película/serie"
           onChange={changeHandler}
+          onKeyDown={handleKeyDown}
           value={inputSearch}
         />
         <button
@@ -90,20 +97,19 @@ export function Header() {
         </button>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 basis-1/3 justify-end">
         {/* Condicionales para Login, Register, Logout */}
         {currentUser ? (
           <span className="text-white">{currentUser.email}</span>
         ) : null}
         <div className="relative">
-          {/* Icono del usuario que activa el menú desplegable */}
+          {/* Icon del dropwdown */}
           <span
             className="material-icons w-8 h-8 cursor-pointer"
             onClick={() => setShowDropdown(!showDropdown)}
           >
             {"person_outline"}
           </span>
-
           {/* Menú desplegable */}
           {showDropdown && (
             <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">

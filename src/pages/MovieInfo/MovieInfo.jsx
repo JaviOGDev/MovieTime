@@ -21,6 +21,7 @@ export function MovieInfo() {
           poster_path: response.poster_path,
           genres: response.genres,
         };
+        console.log(response);
         setData(responseFiltered);
       }
       if (type === "tv") {
