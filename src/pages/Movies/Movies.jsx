@@ -11,10 +11,6 @@ export function Movies() {
   const [changeView, setChangeView] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(searchResult);
-  }, [searchResult]);
-
   const filteredResults = searchResult.filter(
     (item) => filter === "all" || item.type === filter
   );

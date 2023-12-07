@@ -1,5 +1,5 @@
 import "./Header.css";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { logoutUser } from "../../firebase/firebaseOperation";
 import { ButtonNav } from "../ButtoNav/ButtonNav";
@@ -21,28 +21,47 @@ export function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   //Input & Search
-  const [inputSearch, setInputSearch] = useState("");
-  const { insertSearchResult } = useContext(SearchResultContext);
+  const [inputSearch, setInputSearch] = useState(""); //Value of input
+  const { insertSearchResult } = useContext(SearchResultContext); //Context
+  const [searchResults, setSearchResults] = useState([]); //List of results
+  const oldInputSearch = useRef(""); //To save latest inputSearch
   const navigate = useNavigate("");
 
   const changeHandler = (event) => {
-    const newResult = event.target.value;
-    if (newResult.startsWith(" ")) {
-      return;
-    }
-    setInputSearch(newResult);
+    setInputSearch(event.target.value);
   };
 
-  const getData = async () => {
-    console.log("Getting data");
-    const response = await searchMoviesAndTVShows(inputSearch);
-    insertSearchResult(response);
-    navigate("/movies");
+  useEffect(() => {
+    const debouncer = setTimeout(() => {
+      const inputValue = inputSearch.trim();
+      if (inputValue && oldInputSearch.current !== inputValue) {
+        getData(inputSearch);
+        oldInputSearch.current = inputValue;
+      } else {
+        setSearchResults([]);
+      }
+    }, 450);
+
+    return () => clearTimeout(debouncer);
+  }, [inputSearch]);
+
+  const getData = async (inputValue) => {
+    if (inputValue.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+    try {
+      const response = await searchMoviesAndTVShows(inputValue);
+      insertSearchResult(response);
+      setSearchResults(response);
+    } catch (error) {
+      console.error("Error en la búsqueda", error);
+    }
   };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      getData();
+      navigate("/movies");
     }
   };
 
@@ -75,13 +94,12 @@ export function Header() {
       <div className="flex gap-4 basis-1/3">
         <ButtonNav name={"Inicio"} destination={"/"} />
         <ButtonNav name={"Movies"} destination={"/movies"} />
-        <ButtonNav name={"Series"} destination={"/series"} />
         {currentUser && (
           <ButtonNav name={"Your List"} destination={"/yourlist"} />
         )}
       </div>
 
-      <div className="flex gap-2 basis-1/3 justify-center">
+      <div className="flex gap-2 basis-1/3 justify-center position-relative">
         <input
           className="p-2 rounded text-black"
           placeholder="Buscar película/serie"
@@ -91,10 +109,30 @@ export function Header() {
         />
         <button
           className="bg-blue-500 text-white p-2 rounded"
-          onClick={getData}
+          onClick={() => navigate("/movies")}
         >
           Search
         </button>
+        {searchResults.length > 0 ? (
+          <div className="search-results-container">
+            {searchResults.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="search-result-item text-black"
+                  onClick={() => navigate(`/movie/${item.id}`)}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                  />
+                  <p>{item.type === "movie" ? item.title : item.name}</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="flex items-center gap-4 basis-1/3 justify-end">

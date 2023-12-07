@@ -1,7 +1,6 @@
 import "./Body.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "../Home/Home";
-import { Series } from "../Series/Series";
 import { Movies } from "../Movies/Movies";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
@@ -21,7 +20,6 @@ export function Body() {
         <Route path="*" element={<Navigate to={"/"} />} />
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
-        <Route path="/series" element={<Series />} />
         <Route path="/yourlist" element={<YourList />} />
         <Route path="/:type/:id" element={<MovieInfo />} />
       </Routes>
