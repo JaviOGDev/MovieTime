@@ -27,6 +27,9 @@ export function Header() {
   const oldInputSearch = useRef(""); //To save latest inputSearch
   const navigate = useNavigate("");
 
+  //Clickar fuera y no mostrar lista
+  // const modalRef = useRef(null);
+
   const changeHandler = (event) => {
     setInputSearch(event.target.value);
   };
@@ -62,6 +65,7 @@ export function Header() {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       navigate("/movies");
+      setSearchResults([]);
     }
   };
 
@@ -85,6 +89,24 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  //Opcion para clickar fuera se vaya la lista
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (
+  //       searchResults.length > 0 &&
+  //       !modalRef.current.contains(event.target)
+  //     ) {
+  //       setSearchResults([]);
+  //     }
+  //   };
+
+  //   window.addEventListener("mousedown", handleClickOutside);
+
+  //   return () => {
+  //     window.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [searchResults]);
+
   return (
     <div
       className={`fixed w-full max-w-full top-0 z-50 flex justify-between items-center p-4 ${
@@ -99,7 +121,10 @@ export function Header() {
         )}
       </div>
 
-      <div className="flex gap-2 basis-1/3 justify-center position-relative">
+      <div
+        className="flex gap-2 basis-1/3 justify-center position-relative"
+        // ref={modalRef}
+      >
         <input
           className="p-2 rounded text-black"
           placeholder="Buscar película/serie"
@@ -109,7 +134,10 @@ export function Header() {
         />
         <button
           className="bg-blue-500 text-white p-2 rounded"
-          onClick={() => navigate("/movies")}
+          onClick={() => {
+            setSearchResults([]);
+            navigate("/movies");
+          }}
         >
           Search
         </button>

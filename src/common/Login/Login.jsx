@@ -5,6 +5,7 @@ import { loginUser } from "../../firebase/firebaseOperation.js";
 export function Login({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const modalRef = useRef();
 
@@ -16,6 +17,7 @@ export function Login({ onClose }) {
       onClose();
     } catch (error) {
       console.log("Error en inicio de sesioin; ", error);
+      setError(error.message);
     }
   };
 
@@ -69,6 +71,7 @@ export function Login({ onClose }) {
           >
             Cancelar
           </button>
+          {error & <p className="text-red-500">{error}</p>}
         </form>
       </div>
     </div>

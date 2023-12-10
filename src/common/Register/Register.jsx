@@ -72,6 +72,7 @@ export function Register({ onClose }) {
           >
             Cancelar
           </button>
+          {errors && <p className="text-red-500">{errors}</p>}
         </form>
       </div>
     </div>
