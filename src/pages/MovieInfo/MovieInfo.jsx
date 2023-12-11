@@ -1,5 +1,5 @@
 import "./MovieInfo.css";
-import { MovieDetails } from "../../common/MovieInfo/MovieDetails";
+import { MovieDetails } from "../../common/MovieDetails/MovieDetails";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDetails } from "../../api/apiCalls";

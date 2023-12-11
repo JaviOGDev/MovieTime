@@ -50,12 +50,12 @@ export function Home() {
           wallpaper={
             homeFilm
               ? `https://image.tmdb.org/t/p/original${homeFilm.backdrop_path}`
-              : "https://image.tmdb.org/t/p/original/9PqD3wSIjntyJDBzMNuxuKHwpUD.jpg"
+              : "https://image.tmdb.org/t/p/original/zIYROrkHJPYB3VTiW1L9QVgaQO.jpg"
           }
         />
       </div>
       <div>
-        <h1>Pelis Populares</h1>
+        <h1 className="title-home">Popular Films</h1>
         <div className="filmcards-scroll-container">
           <button onClick={() => scrollContainerMovies("left")}>{"<"}</button>
           <div id="filmcards-container-films" className="filmcards-container">
@@ -73,7 +73,7 @@ export function Home() {
         </div>
       </div>
       <div>
-        <h1>Series Populares</h1>
+        <h1 className="title-home">Popular TvShows</h1>
         <div className="filmcards-scroll-container">
           <button onClick={() => scrollContainerSeries("left")}>{"<"}</button>
           <div id="filmcards-container-series" className="filmcards-container">
@@ -81,7 +81,7 @@ export function Home() {
               series.map((serie) => (
                 <Filmcard
                   key={serie.id}
-                  title={serie.title}
+                  title={serie.name}
                   imageUrl={`https://image.tmdb.org/t/p/original${serie.poster_path}`}
                   destination={`/tv/${serie.id}`}
                 />

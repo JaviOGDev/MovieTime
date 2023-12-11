@@ -28,7 +28,7 @@ export function Header() {
   const navigate = useNavigate("");
 
   //Clickar fuera y no mostrar lista
-  // const modalRef = useRef(null);
+  const modalRef = useRef(null);
 
   const changeHandler = (event) => {
     setInputSearch(event.target.value);
@@ -89,23 +89,23 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  //Opcion para clickar fuera se vaya la lista
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       searchResults.length > 0 &&
-  //       !modalRef.current.contains(event.target)
-  //     ) {
-  //       setSearchResults([]);
-  //     }
-  //   };
+  //Controlador del listado de peliculas debajo del input
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchResults.length > 0 &&
+        !modalRef.current.contains(event.target)
+      ) {
+        setSearchResults([]);
+      }
+    };
 
-  //   window.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("mousedown", handleClickOutside);
 
-  //   return () => {
-  //     window.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [searchResults]);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchResults]);
 
   return (
     <div
@@ -123,11 +123,11 @@ export function Header() {
 
       <div
         className="flex gap-2 basis-1/3 justify-center position-relative"
-        // ref={modalRef}
+        ref={modalRef}
       >
         <input
           className="p-2 rounded text-black"
-          placeholder="Buscar película/serie"
+          placeholder="Shrek, Avengers ..."
           onChange={changeHandler}
           onKeyDown={handleKeyDown}
           value={inputSearch}

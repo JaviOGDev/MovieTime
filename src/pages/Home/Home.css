@@ -31,3 +31,8 @@
   cursor: pointer;
   font-size: 24px;
 }
+
+.title-home {
+  margin-left: 60px;
+  font-size: 1.5em;
+}

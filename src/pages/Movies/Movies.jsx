@@ -40,25 +40,25 @@ export function Movies() {
           onClick={() => setFilter("all")}
           className={filter === "all" ? "active" : ""}
         >
-          Todos
+          All
         </button>
         <button
           onClick={() => setFilter("movie")}
           className={filter === "movie" ? "active" : ""}
         >
-          Películas
+          Films
         </button>
         <button
           onClick={() => setFilter("serie")}
           className={filter === "serie" ? "active" : ""}
         >
-          Series
+          TvShows
         </button>
         <select onChange={(e) => setSortOder(e.target.value)}>
-          <option value="alphabetical">Alfabético</option>
-          <option value="reverse">Alfabético Inverso</option>
-          <option value="ratingHighToLow">Mejor Calificados</option>
-          <option value="ratingLowToHigh">Peor Calificados</option>
+          <option value="alphabetical">Sort Alphabet</option>
+          <option value="reverse">Reverse Alphabet</option>
+          <option value="ratingHighToLow">Best qualified</option>
+          <option value="ratingLowToHigh">Worst qualified</option>
         </select>
         <button
           onClick={() => setChangeView((prevState) => !prevState)}

@@ -3,13 +3,19 @@ import { Filmcard } from "../Filmcard/Filmcard";
 import "./MovieDetails.css";
 import { getCast } from "../../api/apiCalls";
 import { AuthContext } from "../../context/AuthContext";
-import { addContent } from "../../firebase/firebaseOperation";
+import { addContent, getUserContent } from "../../firebase/firebaseOperation";
 
 export function MovieDetails({ data, type }) {
   const [cast, setCast] = useState([]);
   const { currentUser } = useContext(AuthContext);
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAddContent = async () => {
+    if (isAdded) {
+      console.log("La película ya ha sido añadida");
+      return;
+    }
+
     const content = {
       id: data.id,
       title: data.title,
@@ -34,6 +40,20 @@ export function MovieDetails({ data, type }) {
     } else {
       console.log("Usuario no autenticado");
     }
+    checkIfAdded();
+  };
+
+  const checkIfAdded = async () => {
+    if (currentUser) {
+      try {
+        const userContent = await getUserContent(currentUser.uid);
+        const isMovieAdded = userContent.some((movie) => movie.id === data.id);
+        console.log("isMovieAdded? ", isMovieAdded);
+        setIsAdded(isMovieAdded);
+      } catch (error) {
+        console.error("Error al verificar el contenido del usuario:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -42,6 +62,7 @@ export function MovieDetails({ data, type }) {
       setCast(fetchedCast.cast.slice(0, 10));
     };
     fetchData();
+    checkIfAdded();
   }, [data]);
 
   return (
@@ -57,24 +78,38 @@ export function MovieDetails({ data, type }) {
               className="addListButton material-icons"
               onClick={handleAddContent}
             >
-              {"add_circle_outline"}
+              {isAdded ? "done" : "add_circle_outline"}
             </span>
           )}
         </div>
         <div className="movieDetailInfoDesign">
-          <h1>{data.title}</h1>
-          <div className="genresContainer">
-            {data.genres.map((genre) => (
-              <p key={genre.id}>{`${genre.name},`}</p>
-            ))}
+          <div className="infoDesign">
+            <h1>Title: </h1>
+            <h1>{data.title}</h1>
           </div>
-          <h1>{`Released: ${data.release_date}`}</h1>
-          <h1>{`Score: ${data.vote_average}`}</h1>
-          <h1> {data.overview}</h1>
+          <div className="infoDesign">
+            <h1>Genres</h1>
+            <div className="genresContainer">
+              {data.genres.map((genre) => (
+                <p key={genre.id}>{`${genre.name},`}</p>
+              ))}
+            </div>
+          </div>
+          <div className="infoDesign">
+            <h1>Release Date: </h1>
+            <h1>{data.release_date}</h1>
+          </div>
+          <div className="infoDesign">
+            <h1>Score: </h1>
+            <h1>{data.vote_average.toFixed(2)}</h1>
+          </div>
+          <div className="infoDesign">
+            <h1>OverView: </h1>
+            <h1> {data.overview}</h1>
+          </div>
         </div>
       </div>
       <div className="gridContainerDesign">
-        <h1>Cast</h1>
         <div className="gridCastDesign">
           {cast.length > 0 ? (
             cast.map((cast) => {

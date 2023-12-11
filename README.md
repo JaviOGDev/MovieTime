@@ -7,11 +7,4 @@ Website to check info about Films & TvShows, also you can add those you have pen
 - React
 - Vite
 - Tailwind
-- Firebase
-
-## TODO
-
-- [ ] MovieDetails style movieDetailInfoDesign
-- [ ] Control errors Login & Register
-- [ ] Footer format
-- [ ] Upcoming movies?
+- Firestore
