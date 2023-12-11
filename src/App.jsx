@@ -13,11 +13,7 @@ function App() {
     color: theme === "light" ? "black" : "white",
   };
 
-  // const themeClass =
-  //   theme === "light" ? "bg-green-200 text-black" : "bg-orange-200 text-white";
-
   return (
-    // <div className={themeClass + " app"}>
     <div style={style} className="app">
       <Header />
       <Body />

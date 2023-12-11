@@ -1,5 +1,5 @@
 import "./Home.css";
-import { MainFilmCard } from "../../common/Mainfilm/MainFilmCard";
+import { MainFilmCard } from "../../common/MainFilmCard/MainFilmCard";
 import { Filmcard } from "../../common/Filmcard/Filmcard";
 import { useEffect, useState } from "react";
 import { getPopularMovies, getPopularTVShows } from "../../api/apiCalls";

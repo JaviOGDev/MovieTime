@@ -10,12 +10,37 @@ export function MovieDetails({ data, type }) {
   const { currentUser } = useContext(AuthContext);
   const [isAdded, setIsAdded] = useState(false);
 
+  // Function to check movie is already added
+  const checkIfAdded = async () => {
+    if (currentUser) {
+      try {
+        const userContent = await getUserContent(currentUser.uid);
+        const isMovieAdded = userContent.some((movie) => movie.id === data.id);
+        console.log("isMovieAdded? ", isMovieAdded);
+        setIsAdded(isMovieAdded);
+      } catch (error) {
+        console.error("Error al verificar el contenido del usuario:", error);
+      }
+    }
+  };
+  // Get cast of movie and check if movie is already added
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedCast = await getCast(type, data.id);
+      setCast(fetchedCast.cast.slice(0, 10));
+    };
+    fetchData();
+    checkIfAdded();
+  }, [data]);
+
+  // Function to add movie
   const handleAddContent = async () => {
+    // If it was already added, do nothing
     if (isAdded) {
       console.log("La película ya ha sido añadida");
       return;
     }
-
+    // By default it will be not viewed and not favou
     const content = {
       id: data.id,
       title: data.title,
@@ -24,7 +49,6 @@ export function MovieDetails({ data, type }) {
       viewed: false,
       favourited: false,
     };
-    console.log("Pelicula añadida: ", content);
     if (currentUser) {
       try {
         await addContent(currentUser.uid, content);
@@ -42,28 +66,6 @@ export function MovieDetails({ data, type }) {
     }
     checkIfAdded();
   };
-
-  const checkIfAdded = async () => {
-    if (currentUser) {
-      try {
-        const userContent = await getUserContent(currentUser.uid);
-        const isMovieAdded = userContent.some((movie) => movie.id === data.id);
-        console.log("isMovieAdded? ", isMovieAdded);
-        setIsAdded(isMovieAdded);
-      } catch (error) {
-        console.error("Error al verificar el contenido del usuario:", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchedCast = await getCast(type, data.id);
-      setCast(fetchedCast.cast.slice(0, 10));
-    };
-    fetchData();
-    checkIfAdded();
-  }, [data]);
 
   return (
     <div className="movieDetailDesign">

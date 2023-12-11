@@ -87,10 +87,11 @@ export const toggleMovieViewedStatus = async (userId, movieId) => {
     const movies = userDoc.data().movies || [];
     // Encontrar el índice de la película a actualizar
     const movieIndex = movies.findIndex((movie) => movie.id === movieId);
-
+    // Comprobacion de que lo ha encontrado
     if (movieIndex !== -1) {
-      // Cambiar el estado de "viewed"
+      // Copia del array movies
       const updatedMovies = [...movies];
+      // Cambiar el estado de "viewed"
       updatedMovies[movieIndex] = {
         ...updatedMovies[movieIndex],
         viewed: !updatedMovies[movieIndex].viewed,
@@ -118,10 +119,11 @@ export const toggleMovieFavouritedStatus = async (userId, movieId) => {
     const movies = userDoc.data().movies || [];
     // Encontrar el índice de la película a actualizar
     const movieIndex = movies.findIndex((movie) => movie.id === movieId);
-
+    // Comprobacion de que lo ha encontrado
     if (movieIndex !== -1) {
-      // Cambiar el estado de "favourited"
+      // Copia del array movies
       const updatedMovies = [...movies];
+      // Cambiar el estado de "favourited"
       updatedMovies[movieIndex] = {
         ...updatedMovies[movieIndex],
         favourited: !updatedMovies[movieIndex].favourited,

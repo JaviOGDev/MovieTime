@@ -58,6 +58,7 @@ export function YourList() {
       }
       try {
         const newState = !list.find((movie) => movie.id === movieId).favourited;
+        console.log(newState);
         await toggleMovieFavouritedStatus(currentUser.uid, movieId);
         setList((currentList) =>
           currentList.map((movie) =>

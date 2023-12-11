@@ -1,7 +1,7 @@
 import "./Body.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "../Home/Home";
-import { Movies } from "../Movies/Movies";
+import { Search } from "../Search/Search";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
 import { MovieInfo } from "../MovieInfo/MovieInfo";
@@ -19,7 +19,7 @@ export function Body() {
       <Routes>
         <Route path="*" element={<Navigate to={"/"} />} />
         <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/yourlist" element={<YourList />} />
         <Route path="/:type/:id" element={<MovieInfo />} />
       </Routes>

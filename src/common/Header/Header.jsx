@@ -1,14 +1,14 @@
 import "./Header.css";
 import { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { logoutUser } from "../../firebase/firebaseOperation";
-import { ButtonNav } from "../ButtoNav/ButtonNav";
+import { SearchResultContext } from "../../context/SearchResultContext";
 import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
+import { ButtonNav } from "../ButtoNav/ButtonNav";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import { searchMoviesAndTVShows } from "../../api/apiCalls";
-import { SearchResultContext } from "../../context/SearchResultContext";
-import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../firebase/firebaseOperation";
 
 export function Header() {
   //Login
@@ -30,25 +30,13 @@ export function Header() {
   //Clickar fuera y no mostrar lista
   const modalRef = useRef(null);
 
+  // Input search change handler
   const changeHandler = (event) => {
     setInputSearch(event.target.value);
   };
 
-  useEffect(() => {
-    const debouncer = setTimeout(() => {
-      const inputValue = inputSearch.trim();
-      if (inputValue && oldInputSearch.current !== inputValue) {
-        getData(inputSearch);
-        oldInputSearch.current = inputValue;
-      } else {
-        setSearchResults([]);
-      }
-    }, 450);
-
-    return () => clearTimeout(debouncer);
-  }, [inputSearch]);
-
   const getData = async (inputValue) => {
+    // Clear array if empty or only spaces on input
     if (inputValue.trim() === "") {
       setSearchResults([]);
       return;
@@ -64,7 +52,7 @@ export function Header() {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      navigate("/movies");
+      navigate("/search");
       setSearchResults([]);
     }
   };
@@ -88,6 +76,21 @@ export function Header() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Debouncer para realizar busqueda
+  useEffect(() => {
+    const debouncer = setTimeout(() => {
+      const inputValue = inputSearch.trim();
+      if (inputValue && oldInputSearch.current !== inputValue) {
+        getData(inputSearch);
+        oldInputSearch.current = inputValue;
+      } else {
+        setSearchResults([]);
+      }
+    }, 450);
+
+    return () => clearTimeout(debouncer);
+  }, [inputSearch]);
 
   //Controlador del listado de peliculas debajo del input
   useEffect(() => {
@@ -115,7 +118,7 @@ export function Header() {
     >
       <div className="flex gap-4 basis-1/3">
         <ButtonNav name={"Inicio"} destination={"/"} />
-        <ButtonNav name={"Movies"} destination={"/movies"} />
+        <ButtonNav name={"Search"} destination={"/search"} />
         {currentUser && (
           <ButtonNav name={"Your List"} destination={"/yourlist"} />
         )}
@@ -127,7 +130,7 @@ export function Header() {
       >
         <input
           className="p-2 rounded text-black"
-          placeholder="Shrek, Avengers ..."
+          placeholder="Oppenheimer, Avengers..."
           onChange={changeHandler}
           onKeyDown={handleKeyDown}
           value={inputSearch}
@@ -141,7 +144,7 @@ export function Header() {
         >
           Search
         </button>
-        {searchResults.length > 0 ? (
+        {searchResults.length > 0 && (
           <div className="search-results-container">
             {searchResults.map((item, index) => {
               return (
@@ -158,8 +161,6 @@ export function Header() {
               );
             })}
           </div>
-        ) : (
-          ""
         )}
       </div>
 

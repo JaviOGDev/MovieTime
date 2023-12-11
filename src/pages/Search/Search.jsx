@@ -1,10 +1,10 @@
-import "./Movies.css";
-import { useContext, useEffect, useState } from "react";
+import "./Search.css";
+import { useContext, useState } from "react";
 import { SearchResultContext } from "../../context/SearchResultContext";
 import { Filmcard } from "../../common/Filmcard/Filmcard";
 import { useNavigate } from "react-router-dom";
 
-export function Movies() {
+export function Search() {
   const { searchResult } = useContext(SearchResultContext);
   const [filter, setFilter] = useState("all");
   const [sortOrder, setSortOder] = useState("alphabetical");
@@ -15,6 +15,7 @@ export function Movies() {
     (item) => filter === "all" || item.type === filter
   );
 
+  //Film name = a.title || TvShow name = a.name
   const sortedResults = [...filteredResults].sort((a, b) => {
     const titleA = a.type === "movie" ? a.title : a.name;
     const titleB = b.type === "movie" ? b.title : b.name;
@@ -75,7 +76,6 @@ export function Movies() {
                 {sortedResults.map((movie) => (
                   <div key={movie.id} className="filmResultCard">
                     <Filmcard
-                      // title={movie.type === "movie" ? movie.title : movie.name}
                       title={movie.vote_average.toFixed(1)}
                       imageUrl={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                       destination={
