@@ -139,7 +139,7 @@ export function Header() {
           className="bg-blue-500 text-white p-2 rounded"
           onClick={() => {
             setSearchResults([]);
-            navigate("/movies");
+            navigate("/search");
           }}
         >
           Search
